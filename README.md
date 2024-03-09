@@ -27,6 +27,3 @@ Contributions are welcome! Opportunities include:
 - Generative Spoken Language Modeling from Raw Audio
 - AudioLM: A Language Modeling Approach to Audio Generation
 - Scaling Laws for Neural Language Models
-
-## License
-This project is open source and available under [license name].
