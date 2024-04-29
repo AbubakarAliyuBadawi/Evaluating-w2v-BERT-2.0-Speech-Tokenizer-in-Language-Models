@@ -1,31 +1,27 @@
 #!/bin/bash
 
-#SBATCH --job-name=tsv-split
-#SBATCH --output=slm_emb_%j.out
-#SBATCH --error=slm_emb_%j.err
-#SBATCH --time=30:00:00 
-#SBATCH --partition=mundus
-#SBATCH --gres=gpu:1
-#SBATCH --mem=32G
-#SBATCH --cpus-per-task=8
-#SBATCH --nodelist=mundus-mir-2
+#SBATCH --job-name=split
+#SBATCH --output=split_%j.out
+#SBATCH --error=split_%j.err
+#SBATCH --time=90:00:00 
+#SBATCH --partition=mundus,all
+#SBATCH --gpus-per-node=a100-10:1
 
 # Load module necessary for the initial environment
 module load python/3.8
-module load cuda/11.0
+module load cuda/11.8
 
 # Activate the Conda environment
 source /mundus/abadawi696/miniconda3/etc/profile.d/conda.sh
 conda activate slm
 
-# Increase NumExpr max threads, if applicable
-export NUMEXPR_MAX_THREADS=16
+cd /mundus/abadawi696/slm_project/slm-60k
 
-# Change directory to your project directory
-cd /mundus/abadawi696/slm_project/slm-100h
+echo "spliting..."
 
-# Run your Python script
-/mundus/abadawi696/miniconda3/envs/slm/bin/python tsv-split-100h.py
+/mundus/abadawi696/miniconda3/envs/slm/bin/python train-splits.py
 
 # Deactivate Conda environment
 conda deactivate
+
+echo "done"
