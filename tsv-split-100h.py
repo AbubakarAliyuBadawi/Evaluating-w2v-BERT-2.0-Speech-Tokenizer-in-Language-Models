@@ -1,44 +1,41 @@
 import os
-import glob
-import random
-import shutil  # Needed for copying files
 
-def list_audio_files(base_dir):
-    """List all .wav files in the directory and subdirectories."""
-    return glob.glob(os.path.join(base_dir, '**', '*.wav'), recursive=True)
+def read_tsv(file_path):
+    """Read a .tsv file and return the lines."""
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+    return lines
 
-def copy_files(audio_files, output_dir):
-    """Copy files to the specified output directory."""
+def write_to_tsv_chunks(lines, output_dir, base_filename='train', num_chunks=10):
+    """Write lines to multiple .tsv files, split into chunks."""
+    chunk_size = len(lines) // num_chunks
+    for i in range(num_chunks):
+        start_index = i * chunk_size
+        # For the last chunk, include any remaining lines
+        end_index = (i + 1) * chunk_size if i < num_chunks - 1 else len(lines)
+        chunk_lines = lines[start_index:end_index]
+        chunk_file_path = os.path.join(output_dir, f'{base_filename}{i+1}.tsv')
+        with open(chunk_file_path, 'w') as file:
+            file.writelines(chunk_lines)
+    print(f"Split {len(lines)} lines into {num_chunks} parts, saved in {output_dir}")
+
+def main(input_tsv_path, output_dir):
     # Ensure the output directory exists
     os.makedirs(output_dir, exist_ok=True)
-    
-    # Copy each audio file to the output directory
-    for file in audio_files:
-        shutil.copy(file, output_dir)
 
-def split_data(audio_files, train_ratio=0.8):
-    """Split audio files into training and testing sets."""
-    random.shuffle(audio_files)
-    split_index = int(len(audio_files) * train_ratio)
-    return audio_files[:split_index], audio_files[split_index:]
+    # Read the existing train.tsv
+    lines = read_tsv(input_tsv_path)
 
-def main(base_dir, output_dir):
-    # List all audio files
-    audio_files = list_audio_files(base_dir)
-    
-    # Split into train and test sets
-    train_files, test_files = split_data(audio_files)
-    
-    # Define train and test directories within the output directory with a '.tsv' extension
-    train_dir = os.path.join(output_dir, 'train.tsv')  # Note: This is a folder, not a TSV file
-    test_dir = os.path.join(output_dir, 'test.tsv')    # Note: This is a folder, not a TSV file
-    
-    # Copy train and test sets to their respective directories
-    copy_files(train_files, train_dir)
-    copy_files(test_files, test_dir)
-    print(f"Copied {len(train_files)} train files to {train_dir} and {len(test_files)} test files to {test_dir}.")
+    # Check if the actual line count matches the expected count
+    actual_count = len(lines)
+    expected_count = 3292213
+    if actual_count != expected_count:
+        print(f"Warning: The actual line count ({actual_count}) does not match the expected count ({expected_count}). Proceeding with the actual count.")
+
+    # Split the lines and write to new .tsv files
+    write_to_tsv_chunks(lines, output_dir)
 
 if __name__ == "__main__":
-    base_dir = '/mundus/data_mundus/librispeech/train-clean-100'
-    output_dir = '/mundus/abadawi696/slm_project/slm-100h'  # Update this to your desired output directory
-    main(base_dir, output_dir)
+    input_tsv_path = '/mundus/abadawi696/slm_project/slm-60k/train.tsv'
+    output_dir = '/mundus/abadawi696/slm_project/slm-60k/train-splits'
+    main(input_tsv_path, output_dir)
