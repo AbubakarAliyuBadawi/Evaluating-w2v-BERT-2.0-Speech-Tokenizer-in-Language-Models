@@ -1,52 +1,53 @@
-# Speech Language Models DDMP
+# Evaluating w2v-BERT-2.0 Speech Tokenizer for Speech Models
 
 ## Overview
-This project is part of the "Data-driven Machine Perception" (DDMP) course and focuses on building spoken dialogue systems directly from raw audio recordings. Our approach, inspired by the Zero Resource Speech Challenge, aims to support low-resource languages and explore expressive communication methods without relying on text.
 
-## Motivations
-- **Inclusivity**: Targeting low-resource languages to make AI dialogue systems more accessible.
-- **Expressiveness**: Leveraging the richness of audio for more nuanced interactions.
-- **Language Acquisition Insights**: Offering insights into human language understanding.
+This project explores the integration of the W2v-BERT-2.0 tokenizer into existing speech-language models (SLMs) to enhance speech-to-speech translation capabilities. This approach aims to process speech directly, eliminating the need for converting speech to text first. Our focus is on leveraging the Conformer-based architecture of the W2v-BERT-2.0 tokenizer, extensively pre-trained on a multilingual corpus.
 
-## Research and Implementation
-We're building upon Google’s open-source AudioLM, focusing on:
-- Evaluating speech tokenizers.
-- Improving acoustic quality measurements.
-- Extending to music generation.
+## Team
 
-# Speech-to-Speech Model Enhancement Project
+- Abubakar Aliyu Badawi
+- Celil Yilmaz
+- Tayyab Tahir
+- Eshfaz Bhat
 
-## Overview
-This project is part of the Data-driven Machine Perception course, focusing on enhancing speech language models. Our primary objective is to improve upon an open-source version of Google's AudioLM, a top speech-to-speech (S2S) model, by integrating a more advanced tokenizer. The original model architecture includes a speech tokenizer, a speech language model with a GPT-like structure, and a token-to-speech model to convert tokens back into speech. We aim to replace the tokenizer component with the recently released W2v-Bert-2.0 from Hugging Face, comparing its performance against the original setup.
+*Department of Seatech, University de Toulon, La Garde 83130, France*
 
-## Project Goals
-- Integrate W2v-Bert-2.0 as the new tokenizer in the existing S2S model architecture.
-- Determine the optimal layer of W2v-Bert-2.0 for feature extraction through empirical analysis.
-- Compare the performance of the enhanced model with the original version to evaluate improvements.
+## Project Aim
 
-## Progress Summary
+To assess the efficacy of the W2v-BERT-2.0 tokenizer integrated into an existing model, aimed at reproducing the open-source version of Google’s AudioLM. This integration is intended to improve the accuracy and efficiency of speech language processing directly, bypassing the intermediary step of text conversion.
 
-### 1. Data Pre-processing
-- Split 100 hours of audio files into training and testing datasets.
-- Organized datasets into a TSV (Tab Separated Values) file for easier access and management.
+## Key Objectives
 
-### 2. Feature Extraction with W2v-Bert-2.0
-- Analyzed the W2v-Bert-2.0 model, which consists of 24 layers and operates at a sampling rate of 50Hz.
-- To identify the most effective layer for feature extraction, we trained a linear classifier on audio files and their corresponding labels (phones).
-- Results indicated that layer 16 outperforms the others, achieving an accuracy of 86% in feature representation.
+1. Process audio data into TSV files containing training and testing datasets.
+2. Explore the architecture and functionalities of the W2v-BERT-2.0 tokenizer.
+3. Extract high-quality features from audio files using the tokenizer.
+4. Train the enhanced model on extensive datasets, evaluating its performance against established benchmarks.
 
-### 3. Implementation of Layer 16 for Feature Extraction
-**Successfully integrated layer 16 of W2v-Bert-2.0** 
-- within the speech-to-speech model's framework for feature extraction.
-- This enhancement is pivotal to the tokenizer replacement process, setting the stage for comprehensive performance evaluations against the model's original configuration.
+## Datasets
 
-## Next Steps
-- Implement layer 16 of W2v-Bert-2.0 for feature extraction within the speech-to-speech model framework.
-- Integrate the extracted features into the speech language model to complete the tokenizer replacement.
-- Conduct extensive testing to compare the performance of the enhanced model against the original version.
-- Analyze results and document findings, focusing on any improvements in accuracy or efficiency brought by the new tokenizer.
+- **Train-clean-100**: 100 hours of high-quality, clean audio.
+- **Libri-Light Large**: 60,000 hours of varied audio recordings, enhancing model robustness and adaptability.
 
-## Resources
-- [W2v-Bert-2.0 on Hugging Face](https://huggingface.co/facebook/w2v-bert-2.0)
+## Methodology
 
+- Pre-process audio data to prepare it for training.
+- Identify the optimal layer within the W2v-BERT-2.0 model for audio feature extraction.
+- Use K-means clustering for efficient categorization of speech patterns.
+- Train and evaluate the model using scripts adapted for our specific setup, focusing on syntactic performance.
 
+## Results
+
+Our initial results indicate promising improvements in syntactic understanding and generalization capabilities of the speech model. Further training and optimization are recommended to fully realize the potential of the W2v-BERT-2.0 integration.
+
+## Conclusion and Recommendations
+
+While initial findings are encouraging, extended training periods and enhanced computational resources are suggested to further improve the model's performance.
+
+## References
+
+Detailed references are included for further reading and verification of the methodologies used.
+
+---
+
+For more information, please contact [abubakar-aliyu-badawi](mailto:abubakar-aliyu-badawi@etud.univ-tln.com).
