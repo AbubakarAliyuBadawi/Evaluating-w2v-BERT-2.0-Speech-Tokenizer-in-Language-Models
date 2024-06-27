@@ -12,7 +12,6 @@
 
 # Load module necessary for the initial environment
 module load python/3.8
-module load cuda/11.0
 
 # Activate the Conda environment
 source /mundus/abadawi696/miniconda3/etc/profile.d/conda.sh
